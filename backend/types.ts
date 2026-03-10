@@ -18,6 +18,7 @@ export interface QueryResponse extends QueryResult {
   summary: string;
   sql: string;
   chartHint: ClaudeResponse['chartHint'];
+  interpretation: string;
 }
 
 export interface SchemaColumn {

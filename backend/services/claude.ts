@@ -1,8 +1,20 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { ClaudeResponse } from '../types';
+import { ClaudeResponse, QueryResult } from '../types';
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const MODEL = process.env.ANTHROPIC_MODEL ?? 'claude-sonnet-4-6';
+
+const INTERPRETATION_SYSTEM_PROMPT = `You are a quality control data analyst. You will be given:
+1. The user's original question
+2. The SQL query that was executed
+3. The result set (as JSON rows)
+
+Respond in plain English as if speaking to a non-technical QC manager:
+- Highlight key numbers, trends, or anomalies
+- If the result set is empty, say so clearly and suggest a likely reason why no data was returned
+- Interpret the data — do not reproduce raw rows verbatim
+- Keep your response concise (3–6 sentences)
+- Do not include the SQL in your response`;
 
 function buildSystemPrompt(schemaContext: string): string {
   return `You are a SQL Server query assistant for a quality control database.
@@ -62,4 +74,33 @@ export async function generateQuery(
   }
 
   return parsed;
+}
+
+export async function interpretResults(
+  question: string,
+  sql: string,
+  result: QueryResult
+): Promise<string> {
+  const payload = {
+    question,
+    sql,
+    rowCount: result.rows.length,
+    truncated: result.truncated,
+    // Cap rows sent to Claude to avoid huge prompts
+    rows: result.rows.slice(0, 50),
+  };
+
+  const message = await client.messages.create({
+    model: MODEL,
+    max_tokens: 512,
+    system: INTERPRETATION_SYSTEM_PROMPT,
+    messages: [{ role: 'user', content: JSON.stringify(payload) }],
+  });
+
+  const text = message.content
+    .filter((block) => block.type === 'text')
+    .map((block) => (block as { type: 'text'; text: string }).text)
+    .join('');
+
+  return text.trim();
 }

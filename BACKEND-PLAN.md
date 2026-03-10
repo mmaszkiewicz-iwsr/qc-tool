@@ -33,7 +33,7 @@ Single responsibility per module:
 | 1 | Scaffold / config | ✅ Code complete | `npm install` not yet run — need Node in PATH |
 | 2 | `services/database.ts` | ✅ Code complete | Awaiting live connection test |
 | 3 | `services/schema.ts` | ⚠️ Partial | Columns loaded; FK relationships not yet added |
-| 4 | `services/claude.ts` | ✅ Code complete | `ANTHROPIC_API_KEY` still empty in `.env` |
+| 4 | `services/claude.ts` | ✅ Code complete | `ANTHROPIC_API_KEY` still empty in `.env`; `interpretResults()` added (second call) |
 | 5 | `middleware/sqlGuard.ts` | ✅ Code complete | Manual review passed; unit tests not written |
 | 6 | `routes/query.ts` | ✅ Code complete | All error codes wired (400/422/500/503/504) |
 | 7 | `middleware/rateLimit.ts` | ✅ Code complete | — |

@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { getSchemaContext } from '../services/schema';
-import { generateQuery } from '../services/claude';
+import { generateQuery, interpretResults } from '../services/claude';
 import { executeQuery } from '../services/database';
 import { validateSql } from '../middleware/sqlGuard';
 import { writeAuditLog } from '../services/audit';
@@ -55,7 +55,18 @@ router.post('/', async (req: Request, res: Response) => {
 
   const durationMs = Date.now() - startMs;
 
-  // Step 4: Audit log (non-blocking)
+  // Step 4: Second Claude call — interpret the results
+  let interpretation = '';
+  try {
+    interpretation = await interpretResults(question, claudeResponse.sql!, result);
+  } catch (err: unknown) {
+    // Non-fatal — return data even if interpretation fails
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    console.warn('[query] Interpretation call failed:', message);
+    interpretation = 'Results returned. Interpretation unavailable.';
+  }
+
+  // Step 5: Audit log (non-blocking)
   writeAuditLog({
     question,
     sql: claudeResponse.sql!,
@@ -71,6 +82,7 @@ router.post('/', async (req: Request, res: Response) => {
     rows: result.rows,
     truncated: result.truncated,
     chartHint: claudeResponse.chartHint,
+    interpretation,
   });
 });
 
