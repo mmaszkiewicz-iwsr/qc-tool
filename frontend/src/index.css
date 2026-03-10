@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* AG Grid theme override for dark background */
+.ag-theme-alpine-dark {
+  --ag-background-color: #1e293b;
+  --ag-odd-row-background-color: #162032;
+  --ag-header-background-color: #0f172a;
+  --ag-border-color: #334155;
+}
