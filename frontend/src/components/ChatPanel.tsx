@@ -102,7 +102,7 @@ export default function ChatPanel({ messages, loading, onSubmit }: Props) {
       </div>
 
       <div className="shrink-0 border-t border-gray-200 p-4 bg-white">
-        <div className="flex gap-2 items-end">
+        <div className="flex gap-2 items-stretch">
           <textarea
             ref={inputRef}
             rows={2}
@@ -114,7 +114,7 @@ export default function ChatPanel({ messages, loading, onSubmit }: Props) {
           <button
             onClick={submit}
             disabled={loading}
-            className="shrink-0 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-semibold rounded-xl px-4 py-2.5 text-sm transition-colors"
+            className="shrink-0 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-semibold rounded-xl px-4 text-sm transition-colors"
           >
             Ask ▶
           </button>
