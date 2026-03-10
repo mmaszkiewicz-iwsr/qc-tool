@@ -51,3 +51,4 @@ Thumbs.db
 # Test coverage
 # ============================================================
 coverage/
+backend/logs/audit.log

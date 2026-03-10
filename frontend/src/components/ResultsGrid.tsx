@@ -24,10 +24,16 @@ export default function ResultsGrid({ columns, rows, truncated }: Props) {
     [columns],
   )
 
+  if (rows.length === 0) {
+    return (
+      <p className="text-sm text-gray-500 italic py-4 text-center">No rows returned.</p>
+    )
+  }
+
   return (
     <div className="flex flex-col gap-1">
       {truncated && (
-        <p className="text-xs text-amber-400 px-1">
+        <p className="text-xs text-amber-500 px-1">
           Results truncated to 1,000 rows. Refine your query to see more.
         </p>
       )}

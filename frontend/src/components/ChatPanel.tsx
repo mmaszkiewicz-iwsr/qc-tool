@@ -79,7 +79,7 @@ export default function ChatPanel({ messages, loading, onSubmit }: Props) {
               <div className="bg-white border border-gray-200 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm">
                 <p className="text-sm text-gray-800 leading-relaxed">{res.summary}</p>
               </div>
-              {res.rows.length > 0 && <AnswerTabs res={res} />}
+              {res.sql && <AnswerTabs res={res} />}
               <CodePreview sql={res.sql} />
               <FeedbackButtons message={msg} question={getQuestion(i)} />
             </div>

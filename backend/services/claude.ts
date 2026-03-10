@@ -1,7 +1,11 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { ClaudeResponse } from '../types';
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+let _client: Anthropic | null = null;
+function getClient(): Anthropic {
+  if (!_client) _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  return _client;
+}
 const MODEL = process.env.ANTHROPIC_MODEL ?? 'claude-sonnet-4-6';
 
 function buildSystemPrompt(schemaContext: string): string {
@@ -33,7 +37,7 @@ export async function generateQuery(
   question: string,
   schemaContext: string
 ): Promise<ClaudeResponse> {
-  const message = await client.messages.create({
+  const message = await getClient().messages.create({
     model: MODEL,
     max_tokens: 1024,
     system: buildSystemPrompt(schemaContext),
