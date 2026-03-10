@@ -13,6 +13,7 @@
 5. Backend validates the SQL (SELECT only), executes it against SQL Server, and enforces row/timeout limits
 6. Results (rows + column metadata) are returned to the frontend
 7. Frontend displays: AI summary, data grid, optional chart, and collapsible SQL preview
+8. Interpret the results to add insight to the query, if there is no data coming back then try to explain why.
 
 ---
 
