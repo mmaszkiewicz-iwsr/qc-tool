@@ -2,10 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* AG Grid theme override for dark background */
-.ag-theme-alpine-dark {
-  --ag-background-color: #1e293b;
-  --ag-odd-row-background-color: #162032;
-  --ag-header-background-color: #0f172a;
-  --ag-border-color: #334155;
+/* AG Grid light theme overrides */
+.ag-theme-alpine {
+  --ag-background-color: #ffffff;
+  --ag-odd-row-background-color: #f9fafb;
+  --ag-header-background-color: #f3f4f6;
+  --ag-border-color: #e5e7eb;
+  --ag-row-hover-color: #f0fdf4;
+  --ag-selected-row-background-color: #d1fae5;
+  --ag-font-size: 13px;
 }

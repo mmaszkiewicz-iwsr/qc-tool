@@ -66,25 +66,25 @@ export default function App() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-slate-900 text-slate-100">
+    <div className="flex flex-col h-screen bg-gray-50 text-gray-900">
       {/* Top bar */}
-      <header className="shrink-0 flex items-center justify-between px-4 py-2 border-b border-slate-700 bg-slate-900/80 backdrop-blur">
+      <header className="shrink-0 flex items-center justify-between px-4 py-2 border-b border-gray-200 bg-white">
         <div className="flex items-center gap-3">
-          <span className="font-bold text-blue-400 tracking-tight">QC Tool</span>
-          <span className="text-xs text-slate-500 hidden sm:inline">AI-powered quality control queries</span>
+          <span className="font-bold text-emerald-700 tracking-tight">QC Tool</span>
+          <span className="text-xs text-gray-400 hidden sm:inline">AI-powered quality control queries</span>
         </div>
         <div className="flex items-center gap-2">
           {needRefresh && (
             <button
               onClick={() => updateServiceWorker(true)}
-              className="text-xs bg-blue-700 hover:bg-blue-600 text-white px-2 py-1 rounded"
+              className="text-xs bg-emerald-700 hover:bg-emerald-600 text-white px-2 py-1 rounded"
             >
               Update available — reload
             </button>
           )}
           <button
             onClick={clearHistory}
-            className="text-xs text-slate-500 hover:text-slate-300 transition-colors px-2 py-1"
+            className="text-xs text-gray-400 hover:text-gray-600 transition-colors px-2 py-1"
             title="Clear conversation history"
           >
             Clear
@@ -121,7 +121,7 @@ function InstallButton() {
         await prompt.prompt()
         setPrompt(null)
       }}
-      className="text-xs bg-slate-700 hover:bg-slate-600 text-slate-200 px-2 py-1 rounded transition-colors"
+      className="text-xs bg-gray-900 hover:bg-gray-700 text-white px-2 py-1 rounded transition-colors"
     >
       Install PWA
     </button>

@@ -25,7 +25,7 @@ export default function FeedbackButtons({ message, question }: Props) {
 
   return (
     <div className="flex items-center gap-2 mt-2">
-      <span className="text-xs text-slate-500">Was this helpful?</span>
+      <span className="text-xs text-gray-400">Was this helpful?</span>
       <button
         onClick={() => handleRate('up')}
         disabled={rated !== null}
@@ -44,7 +44,7 @@ export default function FeedbackButtons({ message, question }: Props) {
       >
         👎
       </button>
-      {rated && <span className="text-xs text-slate-500">Thanks for the feedback.</span>}
+      {rated && <span className="text-xs text-gray-400">Thanks for the feedback.</span>}
     </div>
   )
 }

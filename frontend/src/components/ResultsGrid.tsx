@@ -31,7 +31,7 @@ export default function ResultsGrid({ columns, rows, truncated }: Props) {
           Results truncated to 1,000 rows. Refine your query to see more.
         </p>
       )}
-      <div className="ag-theme-alpine-dark w-full" style={{ height: 340 }}>
+      <div className="ag-theme-alpine w-full" style={{ height: 340 }}>
         <AgGridReact
           columnDefs={colDefs}
           rowData={rows}
@@ -41,7 +41,7 @@ export default function ResultsGrid({ columns, rows, truncated }: Props) {
           suppressMovableColumns
         />
       </div>
-      <p className="text-xs text-slate-500 text-right pr-1">
+      <p className="text-xs text-gray-400 text-right pr-1">
         {rows.length.toLocaleString()} row{rows.length !== 1 ? 's' : ''}
       </p>
     </div>

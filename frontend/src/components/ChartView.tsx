@@ -23,7 +23,7 @@ interface Props {
 export default function ChartView({ chartHint, columns, rows }: Props) {
   if (chartHint === 'none' || columns.length < 2 || rows.length === 0) {
     return (
-      <p className="text-sm text-slate-500 italic text-center py-8">
+      <p className="text-sm text-gray-400 italic text-center py-8">
         No chart available for this result.
       </p>
     )
@@ -38,13 +38,13 @@ export default function ChartView({ chartHint, columns, rows }: Props) {
 
   if (yColumns.length === 0) {
     return (
-      <p className="text-sm text-slate-500 italic text-center py-8">
+      <p className="text-sm text-gray-400 italic text-center py-8">
         No numeric columns available to chart.
       </p>
     )
   }
 
-  const COLORS = ['#60a5fa', '#34d399', '#f87171', '#fbbf24', '#a78bfa']
+  const COLORS = ['#059669', '#374151', '#10b981', '#6b7280', '#34d399']
 
   const commonProps = {
     data: rows,
@@ -53,14 +53,14 @@ export default function ChartView({ chartHint, columns, rows }: Props) {
 
   const axes = (
     <>
-      <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-      <XAxis dataKey={xKey} tick={{ fill: '#94a3b8', fontSize: 11 }} />
-      <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} />
+      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+      <XAxis dataKey={xKey} tick={{ fill: '#6b7280', fontSize: 11 }} />
+      <YAxis tick={{ fill: '#6b7280', fontSize: 11 }} />
       <Tooltip
-        contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: 6 }}
-        labelStyle={{ color: '#e2e8f0' }}
+        contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e7eb', borderRadius: 6 }}
+        labelStyle={{ color: '#111827' }}
       />
-      <Legend wrapperStyle={{ color: '#94a3b8', fontSize: 12 }} />
+      <Legend wrapperStyle={{ color: '#6b7280', fontSize: 12 }} />
     </>
   )
 
