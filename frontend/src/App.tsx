@@ -1,5 +1,4 @@
-import { useState, useCallback } from 'react'
-import { useRegisterSW } from 'virtual:pwa-register/react'
+import { useState, useCallback, useEffect } from 'react'
 import ChatPanel from './components/ChatPanel'
 import { postQuery } from './services/api'
 import type { ChatMessage } from './types'
@@ -18,11 +17,6 @@ export default function App() {
     }
   })
   const [loading, setLoading] = useState(false)
-
-  const {
-    needRefresh: [needRefresh],
-    updateServiceWorker,
-  } = useRegisterSW()
 
   const addMessage = useCallback((msg: ChatMessage) => {
     setMessages((prev) => {
@@ -67,21 +61,12 @@ export default function App() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50 text-gray-900">
-      {/* Top bar */}
       <header className="shrink-0 flex items-center justify-between px-4 py-2 border-b border-gray-200 bg-white">
         <div className="flex items-center gap-3">
           <span className="font-bold text-emerald-700 tracking-tight">QC Tool</span>
           <span className="text-xs text-gray-400 hidden sm:inline">AI-powered quality control queries</span>
         </div>
         <div className="flex items-center gap-2">
-          {needRefresh && (
-            <button
-              onClick={() => updateServiceWorker(true)}
-              className="text-xs bg-emerald-700 hover:bg-emerald-600 text-white px-2 py-1 rounded"
-            >
-              Update available — reload
-            </button>
-          )}
           <button
             onClick={clearHistory}
             className="text-xs text-gray-400 hover:text-gray-600 transition-colors px-2 py-1"
@@ -93,7 +78,6 @@ export default function App() {
         </div>
       </header>
 
-      {/* Main content — full height, no sidebar for MVP */}
       <main className="flex-1 min-h-0">
         <ChatPanel messages={messages} loading={loading} onSubmit={handleSubmit} />
       </main>
@@ -104,14 +88,14 @@ export default function App() {
 function InstallButton() {
   const [prompt, setPrompt] = useState<BeforeInstallPromptEvent | null>(null)
 
-  useState(() => {
+  useEffect(() => {
     const handler = (e: Event) => {
       e.preventDefault()
       setPrompt(e as BeforeInstallPromptEvent)
     }
     window.addEventListener('beforeinstallprompt', handler)
     return () => window.removeEventListener('beforeinstallprompt', handler)
-  })
+  }, [])
 
   if (!prompt) return null
 
@@ -128,7 +112,6 @@ function InstallButton() {
   )
 }
 
-// Browser type not in TS lib by default
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>
 }

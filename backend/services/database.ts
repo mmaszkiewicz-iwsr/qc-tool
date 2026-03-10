@@ -1,8 +1,13 @@
 import sql from 'mssql';
 import { QueryResult } from '../types';
 
+const requiredEnv = ['DB_SERVER', 'DB_NAME', 'DB_USER', 'DB_PASSWORD'] as const;
+for (const key of requiredEnv) {
+  if (!process.env[key]) throw new Error(`Missing required environment variable: ${key}`);
+}
+
 // DB_SERVER may include port as "host,port" — split it out for mssql config
-const [dbServer, dbPortStr] = (process.env.DB_SERVER ?? '').split(',');
+const [dbServer, dbPortStr] = process.env.DB_SERVER!.split(',');
 const dbPort = dbPortStr ? parseInt(dbPortStr, 10) : 1433;
 
 const poolConfig: sql.config = {
@@ -41,8 +46,6 @@ export async function executeQuery(querySql: string): Promise<QueryResult> {
   const db = await getPool();
 
   const request = new sql.Request(db);
-  request.timeout = parseInt(process.env.QUERY_TIMEOUT_MS ?? '30000', 10);
-
   const result = await request.query(querySql);
   const allRows = result.recordset as Record<string, unknown>[];
 

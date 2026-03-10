@@ -9,12 +9,21 @@ export async function postQuery(question: string): Promise<QueryResponse> {
     body: JSON.stringify({ question }),
   })
 
+  const body = await res.json().catch(() => ({})) as Record<string, unknown>
+
   if (!res.ok) {
-    const body = await res.json().catch(() => ({}))
-    throw new Error((body as { message?: string }).message ?? `HTTP ${res.status}`)
+    throw new Error((body.error ?? body.message ?? `HTTP ${res.status}`) as string)
   }
 
-  return res.json() as Promise<QueryResponse>
+  // Backend returns columns as string[] — map to ColumnDef[]
+  const raw = body as Omit<QueryResponse, 'columns'> & { columns: string[] }
+  return {
+    ...raw,
+    columns: raw.columns.map((field) => ({
+      field,
+      headerName: field.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+    })),
+  }
 }
 
 export async function postFeedback(payload: FeedbackPayload): Promise<void> {
